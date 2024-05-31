@@ -18,20 +18,11 @@ MainWindow::MainWindow(QWidget *parent)
     tree = new bintree<nodeData>();
 
     // default tree
-    tree->insert(15);
-    tree->insert(7);
-    tree->insert(23);
-    tree->insert(3);
-    tree->insert(11);
-    tree->insert(19);
-    tree->insert(27);
-    tree->insert(5);
-    tree->insert(17);
-    tree->insert(21);
-    tree->insert(25);
-
     printTree(tree);
     drawTree(tree);
+
+    //clear tree
+    connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::on_clearButton_clicked);
 }
 
 void MainWindow::printTree(bintree<nodeData>* tree) {
@@ -42,7 +33,6 @@ void MainWindow::printTree(bintree<nodeData>* tree) {
 
         _printTree(tree->root, rootItem);
     }
-
 }
 
 void MainWindow::_printTree(node<nodeData>* leaf, QTreeWidgetItem* parentItem) {
@@ -59,47 +49,52 @@ void MainWindow::_printTree(node<nodeData>* leaf, QTreeWidgetItem* parentItem) {
 
 void MainWindow::drawTree(bintree<nodeData>* tree) {
     if (tree->root != nullptr) {
+        // Инициализация корневого узла
+        QGraphicsRectItem* rootRectItem = new QGraphicsRectItem(0, 0, sX, sY);
+        QGraphicsTextItem* labelItem = new QGraphicsTextItem(QString::number(tree->root->key) + " " + tree->root->data->str, rootRectItem);
 
-        QGraphicsEllipseItem* rootEllipseItem = new QGraphicsEllipseItem;
-        rootEllipseItem->setRect(0,0, 100, 40);
-        rootEllipseItem->setBrush(QBrush(Qt::magenta));
-        rootEllipseItem->setZValue(1);
-        scene->addItem(rootEllipseItem);
+        labelItem->setDefaultTextColor(Qt::white);
+        rootRectItem->setBrush(QBrush(Qt::red));
 
-        QGraphicsTextItem* textItem = new QGraphicsTextItem("Начало");
-        textItem->setZValue(2);
-        textItem->setPos(rootEllipseItem->boundingRect().center() - textItem->boundingRect().center());
-        textItem->setDefaultTextColor(Qt::black);
-        scene->addItem(textItem);
+        labelItem->setPos(rootRectItem->boundingRect().center() - labelItem->boundingRect().center());
 
-        QGraphicsRectItem* rootRectItem = new QGraphicsRectItem(rootEllipseItem->rect());
+        scene->addItem(rootRectItem);
+        scene->addItem(labelItem);
 
-        _drawTree(tree->root, nullptr, rootRectItem, 0);
+        _drawTree(tree->root->left, tree->root->right, rootRectItem, -1, false); // Для корня не рисуем линию
+        _drawTree(tree->root->right, tree->root->left, rootRectItem, 1, false); // Для корня не рисуем линию
     }
 }
+
 
 #define dY 70
 #define dX 60
 #define sX 100
 #define sY 40
 
-void MainWindow::_drawTree(node<nodeData>* leaf, node<nodeData>* neighbor, QGraphicsRectItem* parentRectItem, int side) {
+//print tree
+void MainWindow::_drawTree(node<nodeData>* leaf, node<nodeData>* neighbor, QGraphicsRectItem* parentRectItem, int side, bool drawLine) {
     if (leaf != nullptr) {
-
         QGraphicsRectItem* childRectItem = new QGraphicsRectItem;
         QGraphicsTextItem* labelItem = new QGraphicsTextItem(QString::number(leaf->key) + " " + leaf->data->str);
         QPen border;
 
+        // Логика построения дерева
+        // Логика построения дерева
+        int rightDepthNeighbor = (neighbor != nullptr) ? bintree<nodeData>::rightDepth(neighbor) : 0;
+        int leftDepthNeighbor = (neighbor != nullptr) ? bintree<nodeData>::leftDepth(neighbor) : 0;
 
-        //логика построения дерева
         if (side == -1) {
-            childRectItem->setRect(parentRectItem->boundingRect().x() - (bintree<nodeData>::rightDepth(leaf) + bintree<nodeData>::leftDepth(neighbor) + 2)*dX,
-                               parentRectItem->boundingRect().y() + dY, sX, sY);
+            int offsetX = (bintree<nodeData>::rightDepth(leaf) + leftDepthNeighbor + 2) * dX;
+            childRectItem->setRect(parentRectItem->boundingRect().x() - offsetX,
+                                   parentRectItem->boundingRect().y() + dY, sX, sY);
         } else if (side == 1) {
-            childRectItem->setRect(parentRectItem->boundingRect().x() + (bintree<nodeData>::rightDepth(neighbor) + bintree<nodeData>::leftDepth(leaf) + 2)*dX,
-                               parentRectItem->boundingRect().y() + dY, sX, sY);
+            int offsetX = (rightDepthNeighbor + bintree<nodeData>::leftDepth(leaf) + 2) * dX;
+            childRectItem->setRect(parentRectItem->boundingRect().x() + offsetX,
+                                   parentRectItem->boundingRect().y() + dY, sX, sY);
         } else if (side == 0) {
-            childRectItem->setRect(parentRectItem->boundingRect().x(), parentRectItem->boundingRect().y() + dY, sX, sY);
+            childRectItem->setRect(parentRectItem->boundingRect().x(),
+                                   parentRectItem->boundingRect().y() + dY, sX, sY);
         }
 
         labelItem->setPos(childRectItem->boundingRect().center() - labelItem->boundingRect().center());
@@ -107,6 +102,7 @@ void MainWindow::_drawTree(node<nodeData>* leaf, node<nodeData>* neighbor, QGrap
 
         childRectItem->setBrush(QBrush(Qt::red));
 
+        // подсветка максимального и минимального изла
         if (leaf == lastFoundMax) {
             childRectItem->setBrush(QBrush(Qt::green));
             labelItem->setDefaultTextColor(Qt::black);
@@ -117,10 +113,12 @@ void MainWindow::_drawTree(node<nodeData>* leaf, node<nodeData>* neighbor, QGrap
             childRectItem->setBrush(QBrush(Qt::red));
             labelItem->setDefaultTextColor(Qt::white);
         }
+        labelItem->setDefaultTextColor(Qt::white);
 
-        if (leaf == lastFound) {
-            border.setColor(Qt::yellow);
-            border.setWidth(3);
+        // Проверка на нахождение в списке найденных узлов
+        if (foundNodes.contains(leaf)) {
+            childRectItem->setBrush(QBrush(Qt::yellow));  // Цвет для выделения найденных узлов
+            labelItem->setDefaultTextColor(Qt::black);
         }
 
         childRectItem->setPen(border);
@@ -131,7 +129,18 @@ void MainWindow::_drawTree(node<nodeData>* leaf, node<nodeData>* neighbor, QGrap
                                                             childRectItem->boundingRect().center().y());
         lineItem->setPen(QPen(Qt::white));
 
-        lineItem->setZValue(0);
+        // Рисуем линию только если есть родительский прямоугольник и если нужно рисовать линию
+        if (parentRectItem != nullptr && drawLine) {
+            QGraphicsLineItem* lineItem = new QGraphicsLineItem(parentRectItem->boundingRect().center().x(),
+                                                                parentRectItem->boundingRect().center().y(),
+                                                                childRectItem->boundingRect().center().x(),
+                                                                childRectItem->boundingRect().center().y());
+            lineItem->setPen(QPen(Qt::white));
+            lineItem->setZValue(-2);
+            scene->addItem(lineItem);
+        }
+
+        //lineItem->setZValue(0);
         childRectItem->setZValue(1);
         labelItem->setZValue(2);
 
@@ -143,6 +152,8 @@ void MainWindow::_drawTree(node<nodeData>* leaf, node<nodeData>* neighbor, QGrap
         _drawTree(leaf->right, leaf->left, childRectItem, 1);
     }
 }
+
+
 
 bintree<nodeData>* MainWindow::makeTree(void) {
     delete tree;
@@ -234,11 +245,6 @@ void MainWindow::on_insertButton_clicked()
 {
 
     node<nodeData>* node = tree->insert(ui->insertKeySpinBox->value());
-
-    if (node != nullptr) {
-        node->data->str = ui->textDataTextBox->text();
-    }
-
     onTreeOperation();
 }
 
@@ -312,24 +318,48 @@ void MainWindow::findMinNode(bool update) {
     }
 }
 
-void MainWindow::on_findNodePushButton_clicked()
-{
-
-    node<nodeData>* leaf = tree->search(ui->findKeySpinBox->value());
-
+//поиск всех узлов с заданным значением
+void MainWindow::findAllNodesWithKey(node<nodeData>* leaf, int key, QList<node<nodeData>*>& nodes) {
     if (leaf != nullptr) {
+        if (leaf->key == key) {
+            nodes.append(leaf);
+        }
+        findAllNodesWithKey(leaf->left, key, nodes);
+        findAllNodesWithKey(leaf->right, key, nodes);
+    }
+}
 
-        lastFound = leaf;
+void MainWindow::on_findNodePushButton_clicked() {
+    int key = ui->findKeySpinBox->value();
+    foundNodes.clear();
+    findAllNodesWithKey(tree->root, key, foundNodes);
 
-        ui->findLabel->setText(leaf->data->str);
-        ui->findLabel->setText("Найденый узел");
+    if (!foundNodes.isEmpty()) {
+        ui->findLabel->setText("Найдено узлов: " + QString::number(foundNodes.size()));
         onTreeOperation(false);
     } else {
-
-        QMessageBox::critical(this, "Не удалось найти узел", "" + QString::number(ui->findKeySpinBox->value()) + ".");
-
+        QMessageBox::critical(this, "Не удалось найти узел", "Нет узлов с ключом " + QString::number(key) + ".");
         ui->findLabel->setText("Нет такого узла");
     }
+}
+
+void MainWindow::clearTree() {
+    // Удаляем текущее дерево
+    delete tree;
+
+    // Создаем новое пустое дерево
+    tree = new bintree<nodeData>;
+
+    // Очищаем виджеты
+    ui->treeWidget->clear();
+    scene->clear();
+
+    // Обновляем интерфейс
+    updateTree();
+}
+
+void MainWindow::on_clearButton_clicked() {
+    clearTree();
 }
 
 void MainWindow::on_findAutomaticallyCheckBox_stateChanged(int state)

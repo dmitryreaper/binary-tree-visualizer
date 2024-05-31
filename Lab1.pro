@@ -29,4 +29,21 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    resources.qrc \
     resources.qrc
+
+DISTFILES += \
+    binary visualizer icons/Binary-tree_25386.png \
+    binary visualizer icons/Binary-tree_25386.png \
+    binary visualizer icons/Settings_30027.png \
+    binary visualizer icons/Settings_30027.png \
+    binary visualizer icons/free-icon-question-mark-5727965.png \
+    binary visualizer icons/free-icon-question-mark-5727965.png \
+    binary visualizer icons/free-icon-tree-structure-5361881.png \
+    binary visualizer icons/free-icon-tree-structure-5361881.png \
+    binary visualizer icons/icons8-помощь-48.png \
+    binary visualizer icons/icons8-помощь-48.png \
+    binary visualizer icons/info.png \
+    binary visualizer icons/info.png \
+    recources/refresh.png \
+    tags
