@@ -39,9 +39,13 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    QList<node<nodeData>*> foundNodes;
     ~MainWindow();
 
 private slots:
+
+    void findAllNodesWithKey(node<nodeData>* leaf, int key, QList<node<nodeData>*>& nodes);
+
     void on_expandAllPushButton_clicked();
 
     void on_collapseAllPushButton_clicked();
@@ -72,6 +76,8 @@ private slots:
 
     void on_zoomHorizontalSlider_valueChanged(int value);
 
+    void clearTree();
+
 private:
     Ui::MainWindow *ui;
     bintree<nodeData>* tree;
@@ -84,15 +90,17 @@ private:
     void printTree(bintree<nodeData>* tree);
     void _printTree(node<nodeData>* leaf, QTreeWidgetItem* parentItem);
     void drawTree(bintree<nodeData>* tree);
-    void _drawTree(node<nodeData>* leaf, node<nodeData>* neighbor, QGraphicsRectItem* parentRectItem, int side);
-
+    void _drawTree(node<nodeData>* leaf, node<nodeData>* neighbor, QGraphicsRectItem* parentRectItem, int side, bool drawLine = true);
     void findMaxNode(bool update = true);
     void findMinNode(bool update = true);
-
 
     void updateTree(void);
 
     void onTreeOperation(bool changing = true);
     bintree<nodeData>* makeTree(void);
+    void on_clearButton_clicked();
+
+    const int sX = 100; // ширина прямоугольника узла
+    const int sY = 40; // высота
 };
 #endif // MAINWINDOW_H

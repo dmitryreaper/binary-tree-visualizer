@@ -62,12 +62,12 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
-        <width>18</width>
-        <height>18</height>
+        <width>17</width>
+        <height>17</height>
        </size>
       </property>
       <property name="elideMode">
@@ -89,6 +89,10 @@
        <bool>false</bool>
       </property>
       <widget class="QWidget" name="graphicsTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../../Downloads/icons/Custom-Icon-Design-Flatastic-5-Binary-tree.ico</normaloff>../../Downloads/icons/Custom-Icon-Design-Flatastic-5-Binary-tree.ico</iconset>
+       </attribute>
        <attribute name="title">
         <string>Блок схема</string>
        </attribute>
@@ -298,15 +302,26 @@ QSpinBox { text-align: center; }
                 <property name="text">
                  <string>Создать бинарное дерево</string>
                 </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>../../Downloads/icons/Hopstarter-Button-Button-Add.ico</normaloff>../../Downloads/icons/Hopstarter-Button-Button-Add.ico</iconset>
+                </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="addTextCheckBox">
-                <property name="text">
-                 <string>Добавить текст в узел</string>
+               <widget class="QPushButton" name="clearButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>60</width>
+                  <height>40</height>
+                 </size>
                 </property>
-                <property name="checked">
-                 <bool>true</bool>
+                <property name="text">
+                 <string>Очистить дерево</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>../../Downloads/icons/Hopstarter-Button-Button-Close.ico</normaloff>../../Downloads/icons/Hopstarter-Button-Button-Close.ico</iconset>
                 </property>
                </widget>
               </item>
@@ -358,26 +373,6 @@ QSpinBox { text-align: center; }
                 <property name="topMargin">
                  <number>0</number>
                 </property>
-                <item>
-                 <widget class="QLabel" name="label_2">
-                  <property name="text">
-                   <string>Текстовые данные</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="textDataTextBox">
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                  <property name="placeholderText">
-                   <string>Ввести текст</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </item>
               <item>
@@ -398,7 +393,11 @@ QSpinBox { text-align: center; }
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>Режим вставки</string>
+                 <string>Вставить узел</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>../../Downloads/icons/Hopstarter-Button-Button-Add.ico</normaloff>../../Downloads/icons/Hopstarter-Button-Button-Add.ico</iconset>
                 </property>
                </widget>
               </item>
@@ -414,7 +413,11 @@ QSpinBox { text-align: center; }
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>Удалить ключ с узла</string>
+                 <string>Удалить узел</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>../../Downloads/icons/Hopstarter-Button-Button-Close.ico</normaloff>../../Downloads/icons/Hopstarter-Button-Button-Close.ico</iconset>
                 </property>
                </widget>
               </item>
@@ -448,7 +451,11 @@ QSpinBox { text-align: center; }
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="text">
-                   <string>Найти максимальный ключ</string>
+                   <string>Найти максимальный узел</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../Downloads/icons/Hopstarter-Soft-Scraps-Zoom-In.ico</normaloff>../../Downloads/icons/Hopstarter-Soft-Scraps-Zoom-In.ico</iconset>
                   </property>
                  </widget>
                 </item>
@@ -464,7 +471,11 @@ QSpinBox { text-align: center; }
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="text">
-                   <string>Найти минимальный ключ</string>
+                   <string>Найти минимальный узел</string>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>../../Downloads/icons/Hopstarter-Soft-Scraps-Zoom-Out.ico</normaloff>../../Downloads/icons/Hopstarter-Soft-Scraps-Zoom-Out.ico</iconset>
                   </property>
                  </widget>
                 </item>
@@ -577,7 +588,11 @@ QSpinBox { text-align: center; }
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>Найти ключ по значению</string>
+                 <string>Найти узел по значению</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>../../Downloads/icons/Hopstarter-Soft-Scraps-Zoom.ico</normaloff>../../Downloads/icons/Hopstarter-Soft-Scraps-Zoom.ico</iconset>
                 </property>
                </widget>
               </item>
@@ -615,8 +630,8 @@ QSpinBox { text-align: center; }
                  <string>Перезагрузка</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/recources/refresh.png</normaloff>:/recources/refresh.png</iconset>
+                 <iconset>
+                  <normaloff>../../Downloads/icons/Custom-Icon-Design-Flatastic-8-Refresh.ico</normaloff>../../Downloads/icons/Custom-Icon-Design-Flatastic-8-Refresh.ico</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -670,6 +685,10 @@ QSpinBox { text-align: center; }
        </layout>
       </widget>
       <widget class="QWidget" name="treeViewTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../../Downloads/icons/Custom-Icon-Design-Pretty-Office-5-Content-tree.ico</normaloff>../../Downloads/icons/Custom-Icon-Design-Pretty-Office-5-Content-tree.ico</iconset>
+       </attribute>
        <attribute name="title">
         <string>Древовидный вид</string>
        </attribute>
@@ -775,8 +794,12 @@ QSpinBox { text-align: center; }
        </layout>
       </widget>
       <widget class="QWidget" name="tab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../../Downloads/icons/Hopstarter-Sleek-Xp-Basic-Help.ico</normaloff>../../Downloads/icons/Hopstarter-Sleek-Xp-Basic-Help.ico</iconset>
+       </attribute>
        <attribute name="title">
-        <string>Помощь</string>
+        <string>Справка программы</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
@@ -870,13 +893,54 @@ QSpinBox { text-align: center; }
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>../../Downloads/icons/Oxygen-Icons.org-Oxygen-Actions-help-about.ico</normaloff>../../Downloads/icons/Oxygen-Icons.org-Oxygen-Actions-help-about.ico</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>О программе</string>
+       </attribute>
+       <widget class="QFrame" name="frame">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>210</y>
+          <width>581</width>
+          <height>311</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>10</y>
+           <width>391</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Программа визуализация работы бинарного дерева</string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

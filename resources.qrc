@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/">
-        <file>recources/refresh.png</file>
-    </qresource>
+<qresource prefix="/">
+
+<file>recources/refresh.png</file>
+</qresource>
 </RCC>
