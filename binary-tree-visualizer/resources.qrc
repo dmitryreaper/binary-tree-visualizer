@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/add.ico</file>
+        <file>icons/remove.ico</file>
+        <file>icons/search.ico</file>
+        <file>icons/min_search.ico</file>
+        <file>icons/max_search.ico</file>
+        <file>icons/binary_tree.ico</file>
+        <file>icons/refresh.ico</file>
+        <file>icons/help.ico</file>
+        <file>icons/about.ico</file>
+        <file>icons/tree.ico</file>
+        <file>icons/app.ico</file>
+    </qresource>
+</RCC>
